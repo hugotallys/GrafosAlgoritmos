@@ -1,31 +1,69 @@
 #include <iostream>
 #include "Graph.hpp"
 
-void dfs_visit(Graph g, llint s, llint *t, llint *v, llint *p)
+#define blank_line std::cout << std::endl
+
+#include <queue>
+#include <string>
+
+void print_arr(llint *a, llint n, std::string s)
 {
     llint i;
-    *t = *t + 1;
-    v[s] = *t;
+
+    std::cout << s << std::endl;
+    for (i = 0; i < n-1; ++i)
+    {
+        std::cout << "| " <<a[i] << " ";
+    }
+    std::cout << "| " << a[i] << " |" << std::endl;
+}
+
+void bfs_visit(Graph &g, llint s, llint &t, llint *v, llint *p)
+{
+    std::queue<llint> queue;
     
+    v[s] = t++;
+
+    queue.push(s);
+    
+    while (!queue.empty())
+    {
+        llint u = queue.front();
+        queue.pop();
+
+        for(edge e : g.vertices[u])
+        {
+            if (!v[e.vertex])
+            {
+                p[e.vertex] = s;
+                queue.push(e.vertex);
+            }
+        }
+    }
+}
+
+void dfs_visit(Graph &g, llint s, llint &t, llint *v, llint *p)
+{
+    v[s] = t++;
+
     for (edge e : g.vertices[s])
     {
-        std::cout << e.vertex;
         if (!v[e.vertex])
         {
             p[e.vertex] = s;
             dfs_visit(g, e.vertex, t, v, p);
         }
-    }    
+    }
 }
 
-void dfs(Graph g)
+void traversal(Graph &g, void (*t)(Graph&, llint, llint&, llint*, llint*))
 {
     llint i, time;
-    llint *par, *vis;
+    llint *vis, *par;
 
+    time = 0;
     vis = new llint[g.V];
     par = new llint[g.V];
-    time = -1;
 
     for (i = 0; i < g.V; i++)
     {
@@ -36,20 +74,11 @@ void dfs(Graph g)
     for (i = 0; i < g.V; i++)
     {
         if (!vis[i])
-            dfs_visit(g, i, &time, vis, par);
+            t(g, i, time, vis, par);
     }
 
-    std::cout << "DFS visit array: " << std::endl;
-    for (i = 0; i < g.V; i++)
-    {
-        std::cout << "|" << vis[i] << "| ";
-    }
-    
-    std::cout << "DFS parent array: " << std::endl;
-    for (i = 0; i < g.V; i++)
-    {
-        std::cout << "|" << par[i] << "| ";
-    }
+    print_arr(vis, g.V, "Visited Array:");
+    print_arr(par, g.V, "Parents Array:");
 }
 
 int main(int argc, char const *argv[])
@@ -68,8 +97,16 @@ int main(int argc, char const *argv[])
         graph.add_edge(source, target, weight);
     }
 
+    std::cout << "Input Graph:" << std::endl;
     graph.print();
-    dfs(graph);
+    blank_line;
+
+    std::cout << "Running Depth-first Search:" << std::endl;
+    traversal(graph, dfs_visit);
+    blank_line;
+
+    std::cout << "Running Breadth-first Search:" << std::endl;
+    traversal(graph, bfs_visit);
 
     return 0;
 }
