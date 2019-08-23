@@ -11,6 +11,7 @@ struct __edge__
     llint weight;
 
     __edge__(llint v, llint w) : vertex(v), weight(w) { }
+    __edge__() : vertex(-1), weight(-1) {} // default constructor
 };
 
 typedef struct __edge__ edge;
