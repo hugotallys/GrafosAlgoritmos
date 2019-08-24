@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "Graph.hpp"
+#include "../Data_Structures/Graph.hpp"
 
 int main(int argc, char const *argv[])
 {
@@ -18,6 +18,7 @@ int main(int argc, char const *argv[])
         graph.add_edge(source, target, weight);
     }
 
+    std::cout << "Graph representation: " << std::endl;
     graph.print();
 
     return 0;

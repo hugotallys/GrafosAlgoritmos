@@ -1,13 +1,13 @@
 #include <iostream>
 
-#include "Graph.hpp"
-#include "MinHeap.hpp"
+#include "..\Data_Structures\Graph.hpp"
+#include "..\Data_Structures\MinHeap.hpp"
 
 #define blank_line std::cout << std::endl
 
 inline llint min(llint a, llint b) { return a < b ? a : b ;};
 
-void dijkstra(Graph g, llint src, llint *dist)
+void dijkstra(Graph g, llint src, llint *dist, llint *par)
 {
     llint i;
     MinHeap q(g.V);
@@ -15,6 +15,7 @@ void dijkstra(Graph g, llint src, llint *dist)
     for (i = 0; i < g.V; i++)
     {
         dist[i] = INF;
+        par[i] = -1;
         q.insert(edge(i, dist[i]));
     }
 
@@ -27,6 +28,7 @@ void dijkstra(Graph g, llint src, llint *dist)
         {
             if (dist[v.vertex] > dist[p.vertex] + v.weight)
             {
+                par[v.vertex] = p.vertex;
                 dist[v.vertex] = dist[p.vertex] + v.weight;
                 q.decrease_key(v.vertex, dist[v.vertex]);
             }
@@ -63,6 +65,7 @@ int main(int argc, char const *argv[])
     }
 
     llint *dist = new llint[graph.V];
+    llint *par = new llint[graph.V];
 
     llint min_dist = INF;
 
@@ -71,8 +74,13 @@ int main(int argc, char const *argv[])
     blank_line;
 
     std::cout << "Running Dijkstra from source (vertex 0):" << std::endl;
-    dijkstra(graph, 0, dist);
+    dijkstra(graph, 0, dist, par);
+    
     print_arr(dist, graph.V, "Minimum path-distances from source: ");
+    blank_line;
 
+    print_arr(par, graph.V, "Minimum path from source (parents array): ");
+    blank_line;
+    
     return 0;
 }

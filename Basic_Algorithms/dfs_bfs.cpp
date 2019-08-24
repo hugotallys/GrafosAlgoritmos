@@ -1,5 +1,5 @@
 #include <iostream>
-#include "Graph.hpp"
+#include "../Data_Structures/Graph.hpp"
 
 #define blank_line std::cout << std::endl
 
@@ -35,7 +35,8 @@ void bfs_visit(Graph &g, llint s, llint &t, llint *v, llint *p)
         {
             if (!v[e.vertex])
             {
-                p[e.vertex] = s;
+                p[e.vertex] = u;
+                v[e.vertex] = t++;
                 queue.push(e.vertex);
             }
         }

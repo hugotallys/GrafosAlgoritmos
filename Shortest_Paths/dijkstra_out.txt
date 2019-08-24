@@ -1,0 +1,16 @@
+Input Graph:
+
+Adjacency List:
+[0] --> (1,10) (2,5) 
+[1] --> (2,2) (3,1) 
+[2] --> (1,3) (3,9) (4,2) 
+[3] --> (4,4) 
+[4] --> (3,6) 
+
+Running Dijkstra from source (vertex 0):
+Minimum path-distances from source: 
+| 0 | 8 | 5 | 9 | 7 |
+
+Minimum path from source (parents array): 
+| -1 | 2 | 0 | 1 | 2 |
+
