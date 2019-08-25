@@ -193,20 +193,21 @@ int main(int argc, char const *argv[])
 	queue *first_queue = create_queue();
 	queue *second_queue = create_queue();
 	FILE *in, *out;
-	int size;
+	int size = 0, vertex1, vertex2;
 
 	//open the input
 	in = fopen("in", "r");
-	size = fgetc(in);
 	//add edges
-	for (int i = 0; i < size; ++i)
+	while(!feof(in))
 	{
-		add_edge(graph1, fgetc(in), fgetc(in));
+		fscanf(in, "%d %d", &vertex1, &vertex2);
+		add_edge(graph1, vertex1, vertex2);
+		size++;
 	}
 	fclose(in);
 	//run algorithm
 	out = fopen("out", "w");
-	if(!KHAN(graph1, first_queue, second_queue, 2, 5))
+	if(!KHAN(graph1, first_queue, second_queue, 0, size))
 	{
 		printf("This graph is not a DAG!\n");
 	}
