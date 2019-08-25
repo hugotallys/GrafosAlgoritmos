@@ -1,12 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
-#define MAX_SIZE 50
+
+#define MAX_SIZE 10000
 
 typedef struct adj_list adj_list;
 typedef struct graph graph;
 typedef struct node node;
-typedef struct stack stack;
 typedef struct queue queue;
+
+//STRUCTS
 
 struct adj_list 
 {
@@ -15,29 +17,29 @@ struct adj_list
 };
 struct graph 
 {
-	adj_list *vertices[MAX_SIZE];
-	short indegree[MAX_SIZE];
-	short removed[MAX_SIZE];
+	adj_list **vertices;
+	short *indegree;
+	short *removed;
 };
 struct node
 {
 	int item;
 	node* next;
 };
-struct stack
-{
-	node* top;
-};
 struct queue
 {
 	node *head;	
 };
 
+//GRAPH
 
 graph* create_graph()
 {
 	graph *graph1 = (graph*)malloc(sizeof(graph));
 	int i;
+	graph1->vertices = (adj_list**)malloc(sizeof(adj_list)*MAX_SIZE);
+	graph1->indegree = (short*)malloc(sizeof(short)*MAX_SIZE);
+	graph1->removed = (short*)malloc(sizeof(short)*MAX_SIZE);
 	for (i = 0; i < MAX_SIZE; i++) 
 	{
 		graph1->vertices[i] = NULL;
@@ -61,9 +63,7 @@ void add_edge(graph *graph, int vertex1, int vertex2)
 	graph->indegree[vertex2]++;
 }
 
-
-
-//STACK
+//QUEUE
 
 node* create_node (int item)
 {
@@ -80,10 +80,7 @@ queue *create_queue()
 
 	return new_queue;
 }
-int is_empty_q(queue *queue)
-{
-	return (queue->head == NULL);
-}
+int is_empty_q(queue *queue) { return (queue->head == NULL); }
 
 void enqueue(queue *pq, int i)
 {
@@ -125,17 +122,17 @@ int dequeue(queue *pq)
 	}
 }
 
-void print_q(queue *queue) //função que imprime fila
+void print_q(queue *queue, FILE *out) 
 {
-    if (!is_empty_q(queue)) // se a fila não estiver vazia a função segue
+    if (!is_empty_q(queue)) 
     {
-        node *current = queue->head; //cria um ponteiro pra nó, para  poder se navegar na fila
-        while (current != NULL)      //enquanto o ponteiro não chega no fim da fila
+        node *current = queue->head;  
+        while (current != NULL)      
         {
-            printf("%d ", current->item); //printa o item do ponteiro
-            current = current->next;                        //atualiza o ponteiro
+            fprintf(out, "%d ", current->item); 
+            current = current->next;                     
         }
-        printf("\n");
+        fprintf(out, "\n");
     }
 }
 
@@ -153,15 +150,15 @@ int size_q(queue *queue)
 	return count;
 }
 
+//ALGORITHM
 
-int KHAN(graph *graph, queue *queue, struct queue *sec_q, int source, int size)
+int KHAN(graph *graph, struct queue *queue, struct queue *second_queue, int source, int size)
 {
 	
 	int u;
 	
-	for(int i =0;i < size;i++)
+	for(int i = 0;i < size;i++)
 	{
-
 		if(graph->indegree[i] == 0)
 		{
 			enqueue(queue, i);
@@ -172,7 +169,7 @@ int KHAN(graph *graph, queue *queue, struct queue *sec_q, int source, int size)
 	{
 		u = dequeue(queue);
 		graph->removed[u] = 1;
-		enqueue(sec_q, u);
+		enqueue(second_queue, u);
 
 		adj_list *aux = graph->vertices[u];
 		
@@ -187,31 +184,40 @@ int KHAN(graph *graph, queue *queue, struct queue *sec_q, int source, int size)
 
 	}
 
-	return (size == size_q(sec_q));
+	return (size == size_q(second_queue));
 }
 
 int main(int argc, char const *argv[])
 {
 	graph *graph1 = create_graph();
-	queue *queue1 = create_queue();
-	struct queue *sec_q = create_queue();
+	queue *first_queue = create_queue();
+	queue *second_queue = create_queue();
+	FILE *in, *out;
+	int size;
 
-	add_edge(graph1, 0, 2);
-	add_edge(graph1, 0, 1);
-	//add_edge(graph1, 1, 0);
-	add_edge(graph1, 2, 4);
-	add_edge(graph1, 2, 3);
-	add_edge(graph1, 3, 4);
-
-	if(!KHAN(graph1, queue1, sec_q, 0, 6))
+	//open the input
+	in = fopen("in", "r");
+	size = fgetc(in);
+	//add edges
+	for (int i = 0; i < size; ++i)
+	{
+		add_edge(graph1, fgetc(in), fgetc(in));
+	}
+	fclose(in);
+	//run algorithm
+	out = fopen("out", "w");
+	if(!KHAN(graph1, first_queue, second_queue, 2, 5))
 	{
 		printf("This graph is not a DAG!\n");
 	}
 	else
 	{
-		print_q(sec_q);
+		print_q(second_queue, out);
 	}
-	//top_sort(stack1, graph1, 8);	
-	//print_stack(stack1->top);
+	//free pointers
+	free(graph1);
+	free(first_queue);
+	free(second_queue);
+	fclose(out);
 	return 0;
 }
