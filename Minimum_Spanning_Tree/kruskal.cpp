@@ -74,7 +74,7 @@ int main(int argc, char const *argv[])
     std::cout << "Cost of the minimum spanning tree: " << std::endl;
     std::cout << kruskal(edges, num_ver, mst) << std::endl;
     
-    std::cout << "MST edges choosen: " << std::endl;
+    std::cout << "MST edges: " << std::endl;
 
     for (Edge e : mst)
     {
