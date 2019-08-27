@@ -196,7 +196,7 @@ int main(int argc, char const *argv[])
 	int size = 0, vertex1, vertex2;
 
 	//open the input
-	in = fopen("in", "r");
+	in = fopen("khan_in", "r");
 	//add edges
 	while(!feof(in))
 	{
@@ -206,7 +206,7 @@ int main(int argc, char const *argv[])
 	}
 	fclose(in);
 	//run algorithm
-	out = fopen("out", "w");
+	out = fopen("khan_out", "w");
 	if(!KHAN(graph1, first_queue, second_queue, 0, size))
 	{
 		printf("This graph is not a DAG!\n");
