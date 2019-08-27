@@ -32,7 +32,7 @@ Ordenação topológica
     Khan
     
     O algoritmo foi implementado em C, por default, o tamanho máximo do grafo está setado para 10000 vértices.
-    Para entradas maiores, deverá ser alterada a variável global MAX_SIZE para o valor necessário e recompilar o código
+    Para entradas maiores, deverá ser alterada a variável global MAX_SIZE e recompilar o código
     
     Entrada:
     
