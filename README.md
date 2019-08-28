@@ -9,7 +9,7 @@ Alunos: Hugo Tallys Martins Oliveira e João Arthur Gaia da Rocha Almeida
 
 Cada algoritmo tem um arquivo com o código fonte em C ou C++, um arquivo executável, com o código já compilado, um exemplo de entrada e um exemplo de saída.
 
-Para gerar cada arquivo executável basta entrar na linha de comando com:
+Para os códigos em C++, para gerar cada arquivo executável basta entrar na linha de comando com:
 
     $ g++ <filename>.cpp ../Data_Structures/Graph.cpp ../Data_Structures/MinHeap.cpp ../Utility/Utils.cpp -o <filename>
 
@@ -18,6 +18,12 @@ E para gerar a saída:
     $ <filename>.exe < <filename>_in.txt > <filename>_out.txt (windows)
     $ ./<filename> < <filename>_in.txt > <filename>_out.txt
 
+Para o código em C, basta compilar:
+    
+    $ gcc -o khan khan.c
+
+O nome do arquivo de entrada deve ser khan_in.txt. O próprio programa gera a saída khan_out.txt, no mesmo diretório.
+    
 Fluxo Máximo
 
     Edmonds-Karp
