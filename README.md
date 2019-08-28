@@ -7,13 +7,22 @@ Alunos: Hugo Tallys Martins Oliveira e João Arthur Gaia da Rocha Almeida
 
 # Algoritmos 
 
-Cada algoritmo tem um arquivo com o código fonte em C ou C++, um arquivo executável, com o código já compilado, um exemplo de entrada e um exemplo de saída
+Cada algoritmo tem um arquivo com o código fonte em C ou C++, um arquivo executável, com o código já compilado, um exemplo de entrada e um exemplo de saída.
+
+Para gerar cada arquivo executável basta entrar na linha de comando com:
+
+    $ g++ <filename>.cpp ../Data_Structures/Graph.cpp ../Data_Structures/MinHeap.cpp ../Utility/Utils.cpp -o <filename>
+
+E para gerar a saída:
+    
+    $ <filename>.exe < <filename>_in.txt > <filename>_out.txt (windows)
+    $ ./<filename> < <filename>_in.txt > <filename>_out.txt
 
 Fluxo Máximo
 
     Edmonds-Karp
     
-    O algoritmo foi implementado em C++
+    O algoritmo foi implementado em C++.
     
     Entrada:
     
