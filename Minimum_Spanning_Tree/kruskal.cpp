@@ -1,10 +1,9 @@
 #include <iostream>
-
-#include "..\Data_Structures\Graph.hpp"
 #include <vector>
 #include <algorithm>
 
-#define blank_line std::cout << std::endl
+#include "../Data_Structures/Graph.hpp"
+#include "../Utility/Utils.hpp"
 
 struct Edge
 {

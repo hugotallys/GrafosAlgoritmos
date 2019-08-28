@@ -1,11 +1,8 @@
 #include <iostream>
 
-#include "..\Data_Structures\Graph.hpp"
-#include "..\Data_Structures\MinHeap.hpp"
-
-#define blank_line std::cout << std::endl
-
-inline llint min(llint a, llint b) { return a < b ? a : b ;};
+#include "../Data_Structures/Graph.hpp"
+#include "../Data_Structures/MinHeap.hpp"
+#include "../Utility/Utils.hpp"
 
 void dijkstra(Graph g, llint src, llint *dist, llint *par)
 {
@@ -24,8 +21,9 @@ void dijkstra(Graph g, llint src, llint *dist, llint *par)
     while (!q.is_empty())
     {
         edge p = q.extract_min();
-        for (edge v : g.vertices[p.vertex])
+        for (i = 0; i < g.vertices[p.vertex].size(); ++i)
         {
+            edge v = g.vertices[p.vertex][i];
             if (dist[v.vertex] > dist[p.vertex] + v.weight)
             {
                 par[v.vertex] = p.vertex;
@@ -34,18 +32,6 @@ void dijkstra(Graph g, llint src, llint *dist, llint *par)
             }
         }
     }
-}
-
-void print_arr(llint *a, llint n, std::string s)
-{
-    llint i;
-
-    std::cout << s << std::endl;
-    for (i = 0; i < n-1; ++i)
-    {
-        std::cout << "| " <<a[i] << " ";
-    }
-    std::cout << "| " << a[i] << " |" << std::endl;
 }
 
 int main(int argc, char const *argv[])

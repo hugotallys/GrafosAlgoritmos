@@ -3,7 +3,6 @@
 
 #include "Graph.hpp"
 
-const llint INF = 999999999;
 void swap(edge *a, edge *b);
 
 class MinHeap

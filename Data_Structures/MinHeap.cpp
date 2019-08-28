@@ -1,4 +1,5 @@
 #include "MinHeap.hpp"
+#include "../Utility/Utils.hpp"
 
 MinHeap::MinHeap(llint n) : size(n), p(-1)
 {

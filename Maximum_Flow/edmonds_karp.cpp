@@ -1,30 +1,12 @@
 #include <iostream>
-
-#include "..\Data_Structures\Graph.hpp"
 #include <queue>
 
-#define blank_line std::cout << std::endl
-#define a(i,j) i * g.V + j
-
-const llint INF = 999999999;
-
-inline llint min(llint a, llint b) { return a < b ? a : b; }
-
-void print_arr(llint *a, llint n, std::string s)
-{
-    llint i;
-
-    std::cout << s << std::endl;
-    for (i = 0; i < n-1; ++i)
-    {
-        std::cout << "| " <<a[i] << " ";
-    }
-    std::cout << "| " << a[i] << " |" << std::endl;
-}
+#include "../Data_Structures/Graph.hpp"
+#include "../Utility/Utils.hpp"
 
 llint bfs(Graph &g, llint s, llint t, llint *cap, llint *par, llint *vis)
 {
-    llint i, j;
+    llint i;
     std::queue<llint> queue;
 
     queue.push(s);
@@ -44,12 +26,12 @@ llint bfs(Graph &g, llint s, llint t, llint *cap, llint *par, llint *vis)
                 par[e.vertex] = u;
                 while(par[t] != -1)
                 {
-                    min_edge = min(min_edge, cap[a(par[t], t)]);
+                    min_edge = min(min_edge, cap[access(par[t], t, g.V)]);
                     t = par[t];
                 }
                 return min_edge;
             }
-            if (cap[a(u,e.vertex)] && !vis[e.vertex])
+            if (cap[access(u, e.vertex, g.V)] && !vis[e.vertex])
             {
                 par[e.vertex] = u;
                 queue.push(e.vertex);
@@ -72,9 +54,9 @@ llint max_flow(Graph &g, llint src, llint tar)
     for (i = 0; i < g.V; i++)
     {
         par[i] = -1, vis[i] = 0;
-        for (edge e : g.vertices[i])
+        for (edge e: g.vertices[i])
         {
-            cap[a(i,e.vertex)] = e.weight;
+            cap[access(i, e.vertex, g.V)] = e.weight;
         }
     }
 
@@ -84,7 +66,7 @@ llint max_flow(Graph &g, llint src, llint tar)
         i = tar;
         while(par[i] != -1)
         {
-            cap[a(par[i], i)] -= f;
+            cap[access(par[i], i, g.V)] -= f;
             i = par[i];
         }
         max_f += f;

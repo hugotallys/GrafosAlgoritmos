@@ -1,22 +1,9 @@
 #include <iostream>
-#include "../Data_Structures/Graph.hpp"
-
-#define blank_line std::cout << std::endl
-
 #include <queue>
 #include <string>
 
-void print_arr(llint *a, llint n, std::string s)
-{
-    llint i;
-
-    std::cout << s << std::endl;
-    for (i = 0; i < n-1; ++i)
-    {
-        std::cout << "| " <<a[i] << " ";
-    }
-    std::cout << "| " << a[i] << " |" << std::endl;
-}
+#include "../Utility/Utils.hpp"
+#include "../Data_Structures/Graph.hpp"
 
 void bfs_visit(Graph &g, llint s, llint &t, llint *v, llint *p)
 {
